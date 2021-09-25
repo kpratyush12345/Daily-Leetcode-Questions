@@ -1,19 +1,29 @@
 class Solution {
 public:
-	int longestSubarray(vector<int>& A, int limit) {
-        deque<int> maxd, mind;
-        int i = 0, j;
-        for (j = 0; j < A.size(); ++j) {
-            while (!maxd.empty() && A[j] > maxd.back()) maxd.pop_back();
-            while (!mind.empty() && A[j] < mind.back()) mind.pop_back();
-            maxd.push_back(A[j]);
-            mind.push_back(A[j]);
-            if (maxd.front() - mind.front() > limit) {
-                if (maxd.front() == A[i]) maxd.pop_front();
-                if (mind.front() == A[i]) mind.pop_front();
-                ++i;
+	int longestSubarray(vector<int>& nums, int limit) {
+        int ans = 0;
+        deque<int> minQ,maxQ;
+        int s = 0,e = 0;
+        while(e < nums.size()){
+            int x = nums[e];
+            while(!minQ.empty() && nums[minQ.back()] >= x) minQ.pop_back();
+            minQ.push_back(e);
+            while(!maxQ.empty() && nums[maxQ.back()] <= x) maxQ.pop_back();
+            maxQ.push_back(e);
+            
+            int currMin = nums[minQ.front()];
+            int currMax = nums[maxQ.front()];
+            
+            if(currMax - currMin > limit){
+                s++;
+                if(s > minQ.front()) minQ.pop_front();
+                if(s > maxQ.front()) maxQ.pop_front();
+            }
+            else {
+                ans = max(ans,e - s + 1);
+                e++;
             }
         }
-        return j - i;
+        return ans;
     }
 };
