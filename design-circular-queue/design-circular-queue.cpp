@@ -12,8 +12,7 @@ public:
     }
 
     bool enQueue(int value) {
-        if(size == l)
-            return false;
+        if(size == l) return false;
         if(front == -1 && back == 0){
             queue[back] = value;
             front++;
@@ -27,36 +26,29 @@ public:
     }
 
     bool deQueue() {
-        if(size == 0)
-            return false;
-        queue[front%l] = INT_MAX;
+        if(size == 0) return false;
+        //queue[front%l] = INT_MAX;
         front++;
         size--;
         return true;
     }
 
     int Front() {
-        if(size == 0)
-            return -1;
+        if(size == 0) return -1;
         return queue[front%l];
     }
 
     int Rear() {
-        if(size == 0)
-            return -1;
+        if(size == 0) return -1;
         return queue[back%l];
     }
 
     bool isEmpty() {
-        if(size == 0)
-            return true;
-        return false;
+        return (size == 0);
     }
 
     bool isFull() {
-        if(size == l)
-            return true;
-        return false;
+        return (size == l);
     }
 };
 
